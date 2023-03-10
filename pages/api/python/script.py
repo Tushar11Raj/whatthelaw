@@ -11,5 +11,5 @@ modified_index = GPTSimpleVectorIndex.load_from_disk('./pages/api/python/vectorI
 
 response = modified_index.query(userInput, mode="embedding",similarity_top_k=1)
 
-# print("Response:\n")
+# print("User Input: " + userInput)
 print(response)

@@ -1,10 +1,11 @@
 const util = require("node:util");
 const exec = util.promisify(require("node:child_process").exec);
 const openai_key = process.env.openai_key;
-export default function handler(req, res) {
+export default async function handler(req, res) {
   console.log("[+] input: " + req.body.userInput);
-  const { spawn } = require("child_process");
   try {
+    const { spawn } = require("child_process");
+
     const runPythonScript = async () => {
       const python = spawn(
         "python",
@@ -29,13 +30,12 @@ export default function handler(req, res) {
       if (flag) {
         res.status(200).json({ output: output.toString() });
       } else {
-        res.status(500).send("Internal server error");
+        res.status(501).send({ error: "OpenAI error" });
       }
     };
-
     runPythonScript();
   } catch (error) {
     console.log("[-] error: " + error);
-    res.status(500).send("Internal server error");
+    res.status(500).send({ error: "Internal server error" });
   }
 }

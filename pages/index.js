@@ -49,7 +49,7 @@ const Home = () => {
     if (response.status != 200) {
       // alert("Too many requests at the moment! Please try again later.");
       Swal.fire({
-        title: "Error!",
+        title: "Error!" + response.status,
         text: "Too many requests at the moment! Please try again later.",
         icon: "error",
         confirmButtonText: "ok",
@@ -63,7 +63,7 @@ const Home = () => {
     // const temp = output.data;
     // console.log("OpenAI replied...", output);
 
-    setApiOutput(`${output}`);
+    setApiOutput(`Query: ${userInput} \n ${output}`);
     setIsGenerating(false);
     setUserInput("");
   };

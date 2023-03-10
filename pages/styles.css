@@ -294,7 +294,7 @@ textarea {
   position: relative;
   width: 610px;
   padding: 20px;
-  background-color: lavender;
+  background-color: rgb(75, 85, 99);
   border-radius: 16px;
 }
 
@@ -340,7 +340,9 @@ textarea {
 .output-content p {
   white-space: pre-line;
   color: rgb(255, 255, 255, 1);
+  line-height: 30px;
   font-weight: 500;
+  word-spacing: 3px;
 }
 
 .footer {
