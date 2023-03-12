@@ -34,38 +34,44 @@ const Home = () => {
       return;
     }
     setIsGenerating(true);
-
+    var gptresponse, source_text;
     // console.log("Calling OpenAI...");
-    const response = await fetch("/api/server", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userInput }),
-    });
+    await fetch(
+      "https://whatthelaw-server.onrender.com/response/" + userInput,
+      {
+        method: "GET",
+        mode: "cors",
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not OK");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // console.log(data);
+        gptresponse = data.response;
+        const source_text_array = data.source_nodes;
 
-    // console.log(response.status);
-
-    if (response.status != 200) {
-      // alert("Too many requests at the moment! Please try again later.");
-      Swal.fire({
-        title: "Error!" + response.status,
-        text: "Too many requests at the moment! Please try again later.",
-        icon: "error",
-        confirmButtonText: "ok",
+        setApiOutput(`Query: ${userInput} \n ${gptresponse}`);
+        setIsGenerating(false);
+        setUserInput("");
+      })
+      .catch((error) => {
+        console.log("[-] error: " + error);
+        var errmsg;
+        // if (response.status == 500) errmsg = "Internal server error";
+        // else errmsg = "Too many requests at the moment! Please try again later.";
+        errmsg = "Too many requests at the moment! Please try again later.";
+        Swal.fire({
+          title: "Error!",
+          text: errmsg,
+          icon: "error",
+          confirmButtonText: "ok",
+        });
+        setIsGenerating(false);
       });
-      setIsGenerating(false);
-      return;
-    }
-
-    const data = await response.json();
-    const { output } = data;
-    // const temp = output.data;
-    // console.log("OpenAI replied...", output);
-
-    setApiOutput(`Query: ${userInput} \n ${output}`);
-    setIsGenerating(false);
-    setUserInput("");
   };
 
   return (
@@ -122,9 +128,9 @@ const Home = () => {
         <div className="footer">
           <p>
             Powered by{" "}
-            <a target="_blank" className="links" href="https://nextjs.org/">
+            {/* <a target="_blank" className="links" href="https://nextjs.org/">
               NextJS{" "}
-            </a>
+            </a> */}
             <a target="_blank" className="links" href="https://vercel.com/">
               Vercel{" "}
             </a>
