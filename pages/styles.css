@@ -492,6 +492,7 @@ textarea {
   flex-direction: column;
   place-content: center flex-start;
   align-items: center;
+  margin-bottom: 15px;
 }
 
 .chat-title {
