@@ -68,7 +68,7 @@ export default function Chat() {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
+        height: "90vh",
       }}
     >
       {/* <div className="chat-header">Chat with lawyer</div> */}
