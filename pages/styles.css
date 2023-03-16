@@ -454,6 +454,17 @@ textarea {
   animation: rotation 1s linear infinite;
 }
 
+.loader-blue {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 2px solid #007bff;
+  border-right: 2px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -462,4 +473,30 @@ textarea {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* -----------------------chat-page----------------------  */
+
+.chat-header {
+  padding: 10px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  box-shadow: 0px 0px 3px 1px #e4e4e4;
+}
+
+.chat-title-container {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  place-content: center flex-start;
+  align-items: center;
+}
+
+.chat-title {
+  font-size: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  width: fit-content;
 }
