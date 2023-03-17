@@ -99,14 +99,76 @@ const Home = () => {
             </p>
           </div>
         </div>
+        <div
+          style={{
+            display: "inline-block",
+            padding: "5px 10px",
+            borderRadius: "20px",
+            fontWeight: "600",
+            background: "linear-gradient(125deg, #007bff, #28a745)",
+            color: "white",
+          }}
+        >
+          Coming Soon...
+        </div>
+        <ul style={{ listStyleType: "none", paddingLeft: "0" }}>
+          <li
+            style={{ paddingLeft: "20px", lineHeight: "2em", color: "white" }}
+          >
+            <span
+              style={{
+                paddingRight: "10px",
+                color: "green",
+                fontWeight: "bold",
+              }}
+            >
+              &#10004;
+            </span>
+            Chat with AI lawyer
+          </li>
+          <li
+            style={{ paddingLeft: "20px", lineHeight: "2em", color: "white" }}
+          >
+            <span
+              style={{
+                paddingRight: "10px",
+                color: "green",
+                fontWeight: "bold",
+              }}
+            >
+              &#10004;
+            </span>
+            Trained on IPC, CRPC, Constitution of india
+          </li>
+          <li
+            style={{ paddingLeft: "20px", lineHeight: "2em", color: "white" }}
+          >
+            <span
+              style={{
+                paddingRight: "10px",
+                color: "green",
+                fontWeight: "bold",
+              }}
+            >
+              &#10004;
+            </span>
+            Understand Terms and conditions of Companies better!
+          </li>
+        </ul>
+        <div style={{ color: "white" }}>Try this query box for now 👇</div>
         <div className="prompt-container">
           <textarea
             className="prompt-box"
-            placeholder="eg. someone hit my car while it was parked. what should i do"
+            placeholder="eg. which law explains the case about illegal possesion of property."
             value={userInput}
             onChange={onUserChangedText}
             onKeyDown={handleKeyDown}
           />
+          <div
+            style={{ color: "white", fontSize: "10px", textAlign: "center" }}
+          >
+            *this is a testing feature. responses may be slow and incorrect.
+          </div>
           <div className="prompt-buttons">
             <a
               className={
@@ -137,23 +199,10 @@ const Home = () => {
           )}
         </div>
         <div className="footer">
-          <p>
-            Powered by{" "}
-            {/* <a target="_blank" className="links" href="https://nextjs.org/">
-              NextJS{" "}
-            </a> */}
-            <a target="_blank" className="links" href="https://vercel.com/">
-              Vercel{" "}
-            </a>
-            <a
-              target="_blank"
-              className="links"
-              href="https://gpt-index.readthedocs.io/en/latest/index.html"
-            >
-              LlamaIndex
-            </a>
+          <p style={{ textAlign: "center" }}>
+            Powered by Llama-Index Langchain Supabase
           </p>
-          <p>
+          <p style={{ textAlign: "center" }}>
             built by{" "}
             <a
               href="https://twitter.com/imtusharraj"
