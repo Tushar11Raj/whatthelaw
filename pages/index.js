@@ -4,6 +4,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { app, database } from "firebaseConfig.js";
 import { collection, addDoc, getFirestore } from "firebase/firestore";
+import { Button } from "react-bootstrap";
 
 const dbInstance = collection(database, "queries");
 
@@ -99,18 +100,22 @@ const Home = () => {
             </p>
           </div>
         </div>
-        <div
+        <Button
+          href="https://docs.google.com/forms/d/e/1FAIpQLSeV6D1mjwzs76Y3FCVxyPY8kORofYSx7kycNOByqb2_IHlpcw/viewform"
+          target="_blank"
           style={{
             display: "inline-block",
-            padding: "5px 10px",
+            padding: "10px 15px",
             borderRadius: "20px",
             fontWeight: "600",
             background: "linear-gradient(125deg, #007bff, #28a745)",
             color: "white",
+            border: "none",
+            textDecoration: "none",
           }}
         >
-          Coming Soon...
-        </div>
+          get early access
+        </Button>
         <ul style={{ listStyleType: "none", paddingLeft: "0" }}>
           <li
             style={{ paddingLeft: "20px", lineHeight: "2em", color: "white" }}
