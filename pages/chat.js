@@ -22,6 +22,7 @@ export default function Chat() {
       return;
     }
     setIsLoading(true);
+    const query = input.replace(/\n/g, " ");
     // setMessages([...messages, { author: "user", message: input }]);
     setInput("");
 
