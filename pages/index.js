@@ -2,10 +2,14 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { app, database } from "firebaseConfig.js";
+import { collection, addDoc, getFirestore } from "firebase/firestore";
+
+const dbInstance = collection(database, "queries");
 
 const Home = () => {
   const [userInput, setUserInput] = useState("");
-
+  var sourceNodes;
   const onUserChangedText = (event) => {
     setUserInput(event.target.value);
   };
@@ -24,6 +28,7 @@ const Home = () => {
 
   const callGenerateEndpoint = async () => {
     // console.log(userInput);
+    // return;
     if (userInput === "") {
       Swal.fire({
         title: "Error!",
@@ -52,9 +57,15 @@ const Home = () => {
       .then((data) => {
         // console.log(data);
         gptresponse = data.response;
-        const source_text_array = data.source_nodes;
+        sourceNodes = data.source_nodes;
 
         setApiOutput(`Query: ${userInput} \n ${gptresponse}`);
+        addDoc(dbInstance, {
+          query: userInput,
+          response: gptresponse,
+        });
+      })
+      .then(() => {
         setIsGenerating(false);
         setUserInput("");
       })
