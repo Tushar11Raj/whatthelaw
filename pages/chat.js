@@ -1,50 +1,90 @@
-import { useState, useEffect, useRef } from "react";
-import { FaUser, FaRobot, FaPaperPlane } from "react-icons/fa";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { FaUser, FaRobot } from "react-icons/fa";
 import { BiSend } from "react-icons/bi";
+import ReactMarkdown from "react-markdown";
 
 export default function Chat() {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
   const chatBottomRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [messageState, setMessageState] = useState({
+    messages: [
+      {
+        message:
+          "Hi there its your personal lawyer! What would like help with?",
+        type: "apiMessage",
+      },
+    ],
+    history: [],
+  });
 
-  function resolveAfter2Seconds() {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve("resolved");
-      }, 2000);
-    });
-  }
+  const { messages, history } = messageState;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (input.trim() === "") {
+    if (query.trim() === "") {
+      Swal.fire({
+        title: "Error!",
+        text: "Please enter a message.",
+        icon: "error",
+        confirmButtonText: "ok",
+      });
       return;
     }
-    setIsLoading(true);
-    const query = input.replace(/\n/g, " ");
-    // setMessages([...messages, { author: "user", message: input }]);
-    setInput("");
+    const question = query.trim();
+    setMessageState((state) => ({
+      ...state,
+      messages: [
+        ...state.messages,
+        {
+          type: "userMessage",
+          message: question,
+        },
+      ],
+    }));
+    setLoading(true);
+    setQuery("");
 
     document.getElementById("input-field").style.height = "24px";
-    setMessages((messages) => [
-      ...messages,
-      { author: "user", message: input },
-    ]);
-    const result = await resolveAfter2Seconds();
-    // const response = await openai.complete({
-    //   engine: 'davinci',
-    //   prompt: input,
-    //   maxTokens: 100,
-    //   n: 1,
-    //   stop: '\n',
-    // });
+    // console.log("handleSubmit");
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          question,
+          history,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    setMessages((messages) => [
-      ...messages,
-      { author: "agent", message: result },
-    ]);
-    setIsLoading(false);
+      if (!response.ok) {
+        Swal.fire({
+          title: "Error!",
+          text: "Some error occured. Please try after sometime.",
+          icon: "error",
+          confirmButtonText: "ok",
+        });
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      // console.log(data.data.text);
+      setMessageState((state) => ({
+        ...state,
+        messages: [
+          ...state.messages,
+          {
+            type: "apiMessage",
+            message: data.data.text,
+          },
+        ],
+      }));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    setLoading(false);
   };
 
   function scrollToBottom() {
@@ -53,16 +93,23 @@ export default function Chat() {
 
   function handleInputChange(e) {
     const inputLines = e.target.value.split("\n").length;
-    setInput(e.target.value);
+    setQuery(e.target.value);
     if (inputLines <= 5) {
       e.target.style.height = "auto";
       e.target.style.height = e.target.scrollHeight + "px";
     }
   }
 
+  // const chatMessages = useMemo(() => {
+  //   return [
+  //     ...messages,
+  //     ...(pending ? [{ type: "apiMessage", message: pending }] : []),
+  //   ];
+  // }, [messages, pending]);
+
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messageState]);
 
   return (
     <div
@@ -143,7 +190,7 @@ export default function Chat() {
           <div>...more coming soon</div>
         </div>
 
-        {messages.map((message, index) => (
+        {messageState.messages.map((message, index) => (
           <div
             key={index}
             style={{
@@ -162,7 +209,7 @@ export default function Chat() {
                 marginRight: "10px",
               }}
             >
-              {message.author === "user" ? (
+              {message.type === "userMessage" ? (
                 <FaUser size={16} />
               ) : (
                 <FaRobot size={16} />
@@ -171,8 +218,8 @@ export default function Chat() {
             <div
               style={{
                 backgroundColor:
-                  message.author === "user" ? "#f2f2f2" : "#007bff",
-                color: message.author === "user" ? "black" : "white",
+                  message.type === "userMessage" ? "#f2f2f2" : "#007bff",
+                color: message.type === "userMessage" ? "black" : "white",
                 padding: "5px 10px",
                 borderRadius: "5px",
                 alignSelf: "flex-end",
@@ -182,7 +229,9 @@ export default function Chat() {
                 fontSize: "14px",
               }}
             >
-              {message.message}
+              <ReactMarkdown linkTarget="_blank">
+                {message.message}
+              </ReactMarkdown>
             </div>
           </div>
         ))}
@@ -194,7 +243,7 @@ export default function Chat() {
       >
         <textarea
           id="input-field"
-          placeholder="Type your message here..."
+          placeholder={loading ? "AI is thinking..." : "Your question here..."}
           style={{
             flex: 1,
             marginRight: "10px",
@@ -206,10 +255,10 @@ export default function Chat() {
             height: "24px",
             fontSize: "14px",
           }}
-          value={input}
+          value={query}
           onChange={handleInputChange}
         />
-        {isLoading ? (
+        {loading ? (
           <span style={{ height: "24px", width: "24px", padding: "5px" }}>
             <span className="loader-blue"></span>
           </span>

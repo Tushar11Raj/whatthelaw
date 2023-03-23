@@ -100,22 +100,7 @@ const Home = () => {
             </p>
           </div>
         </div>
-        <Button
-          href="https://docs.google.com/forms/d/e/1FAIpQLSeV6D1mjwzs76Y3FCVxyPY8kORofYSx7kycNOByqb2_IHlpcw/viewform"
-          target="_blank"
-          style={{
-            display: "inline-block",
-            padding: "10px 15px",
-            borderRadius: "20px",
-            fontWeight: "600",
-            background: "linear-gradient(125deg, #007bff, #28a745)",
-            color: "white",
-            border: "none",
-            textDecoration: "none",
-          }}
-        >
-          get early access
-        </Button>
+
         <ul style={{ listStyleType: "none", paddingLeft: "0" }}>
           <li
             style={{ paddingLeft: "20px", lineHeight: "2em", color: "white" }}
@@ -160,7 +145,23 @@ const Home = () => {
             Understand Terms and conditions of Companies better!
           </li>
         </ul>
-        <div style={{ color: "white" }}>Try this query box for now 👇</div>
+        <Button
+          href="/chat"
+          // target="_blank"
+          style={{
+            display: "inline-block",
+            padding: "10px 15px",
+            borderRadius: "20px",
+            fontWeight: "600",
+            background: "linear-gradient(125deg, #007bff, #28a745)",
+            color: "white",
+            border: "none",
+            textDecoration: "none",
+          }}
+        >
+          chat now
+        </Button>
+        {/* <div style={{ color: "white" }}>Try this query box for now 👇</div>
         <div className="prompt-container">
           <textarea
             className="prompt-box"
@@ -192,17 +193,12 @@ const Home = () => {
           </div>
           {apiOutput && (
             <div className="output">
-              {/* <div className="output-header-container">
-                <div className="output-header">
-                  <h3>Output</h3>
-                </div>
-              </div> */}
               <div className="output-content">
                 <p>{apiOutput}</p>
               </div>
             </div>
           )}
-        </div>
+        </div> */}
         <div className="footer">
           <p style={{ textAlign: "center" }}>
             Powered by Llama-Index Langchain Supabase
