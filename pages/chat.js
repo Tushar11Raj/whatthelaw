@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { FaUser, FaRobot } from "react-icons/fa";
 import { BiSend } from "react-icons/bi";
 import ReactMarkdown from "react-markdown";
+import Swal from "sweetalert2";
 
 export default function Chat() {
   const [query, setQuery] = useState("");
