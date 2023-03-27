@@ -10,7 +10,11 @@ body {
   display: flex;
   place-content: center flex-start;
   align-items: center;
-  background-color: rgb(0, 0, 0);
+  background-color: #020202;
+  background-image: radial-gradient(#f2f2f2 1%, transparent 5%);
+  background-size: 20px 20px;
+  background-position: 50px;
+  background-repeat: repeat;
   flex-flow: column nowrap;
   gap: 10px;
   height: 100vh;
