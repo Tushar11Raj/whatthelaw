@@ -1,10 +1,11 @@
 import { OpenAI } from "langchain/llms";
+import { ChatOpenAI } from "langchain/chat_models";
 
 if (!process.env.openai_key) {
   throw new Error("Missing OpenAI Credentials");
 }
 
-export const openai = new OpenAI({
+export const openai = new ChatOpenAI({
   temperature: 0,
 });
 
