@@ -140,7 +140,7 @@ const Home = () => {
                 fontWeight: "bold",
               }}
             >
-              &#10004;
+              🕒
             </span>
             Understand Terms and conditions of Companies better!
           </li>
