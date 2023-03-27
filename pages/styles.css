@@ -13,7 +13,7 @@ body {
   background-color: #020202;
   background-image: radial-gradient(#f2f2f2 1%, transparent 5%);
   background-size: 20px 20px;
-  background-position: 50px;
+  background-position: 0px;
   background-repeat: repeat;
   flex-flow: column nowrap;
   gap: 10px;
