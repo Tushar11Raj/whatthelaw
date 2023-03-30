@@ -63,7 +63,7 @@ export default function Chat() {
       if (!response.ok) {
         Swal.fire({
           title: "Error!",
-          text: "Some error occured. Please try after sometime.",
+          text: "Too many requests at the moment. Please try after sometime.",
           icon: "error",
           confirmButtonText: "ok",
         });
