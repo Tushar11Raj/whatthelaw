@@ -1,20 +1,32 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { OpenAIEmbeddings } from "langchain/embeddings";
 import { SupabaseVectorStore } from "langchain/vectorstores";
-import { openai } from "@/utils/openaiClient";
 import { supabaseClient } from "@/utils/supabaseClient";
 import { makeChain } from "@/utils/makeChain";
-import { LLMChain, ChatVectorDBQAChain, loadQAChain } from "langchain/chains";
+import fs from "fs";
+
+function redirectConsoleToFile(filename: string): void {
+  const stream = fs.createWriteStream(filename, { flags: "a" });
+  const oldConsoleLog = console.log;
+
+  console.log = (...args: any[]): void => {
+    const message = args.map((arg) => JSON.stringify(arg)).join(" ");
+    stream.write(message + "\n");
+    oldConsoleLog.apply(console, args);
+  };
+}
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // redirectConsoleToFile("log.txt");
   const now = new Date(); // create a new Date object
   const currentTime = now.toLocaleTimeString(); // get the current time as a string
   console.log("chat.ts called@", currentTime);
   const { question, history } = req.body;
 
+  console.log("Question: ", question);
   if (!question) {
     return res.status(400).json({ message: "No question in the request" });
   }
@@ -36,8 +48,10 @@ export default async function handler(
   });
 
   console.log("response: ", response);
-  // console.log("sourced docs: ", response.sourceDocuments);
-
+  console.log("sourced docs: ", response.sourceDocuments);
+  console.log(
+    "/n/n-------------------------------------------------------------/n"
+  );
   res.status(200).json({ data: response });
   // res.writeHead(200, {
   //   "Content-Type": "text/event-stream",

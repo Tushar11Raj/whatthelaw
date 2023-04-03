@@ -63,7 +63,7 @@ export default function Chat() {
       if (!response.ok) {
         Swal.fire({
           title: "Error!",
-          text: "Too many requests at the moment. Please try after sometime.",
+          text: "Sorry! OpenAI credits are over.",
           icon: "error",
           confirmButtonText: "ok",
         });
