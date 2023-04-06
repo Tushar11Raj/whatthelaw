@@ -25,14 +25,15 @@ Question: {question}
 Answer in Markdown:`
 );
 
-export const makeChain = (vectorstore) => {
+export const makeChain = (vectorstore, apiKey) => {
   const questionGenerator = new LLMChain({
-    llm: new OpenAI({ temperature: 0.7 }),
+    llm: new OpenAI({ temperature: 0.7, openAIApiKey: apiKey }),
     prompt: CONDENSE_PROMPT,
   });
   const docChain = loadQAChain(
     new OpenAI({
       temperature: 0.7,
+      openAIApiKey: apiKey,
     }),
     { prompt: QA_PROMPT }
   );

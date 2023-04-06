@@ -5,6 +5,21 @@ import ReactMarkdown from "react-markdown";
 import Swal from "sweetalert2";
 
 export default function Chat() {
+  const [apiKey, setApiKey] = useState(null);
+  const askForApiKey = async () => {
+    const { value: key } = await Swal.fire({
+      title: "Enter your Open-AI key to use the chatbot",
+      input: "text",
+      inputLabel: "Your open-ai key...",
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to enter an open-ai key!";
+        }
+      },
+    });
+    setApiKey(key);
+  };
+
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const chatBottomRef = useRef(null);
@@ -33,6 +48,9 @@ export default function Chat() {
       return;
     }
     const question = query.trim();
+
+    if (apiKey == null) await askForApiKey();
+
     setMessageState((state) => ({
       ...state,
       messages: [
@@ -54,6 +72,7 @@ export default function Chat() {
         body: JSON.stringify({
           question,
           history,
+          apiKey,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +82,7 @@ export default function Chat() {
       if (!response.ok) {
         Swal.fire({
           title: "Error!",
-          text: "Sorry! OpenAI credits are over.",
+          text: "Seems like a server error. Try after sometime!",
           icon: "error",
           confirmButtonText: "ok",
         });

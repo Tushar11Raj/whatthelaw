@@ -24,8 +24,7 @@ export default async function handler(
   const now = new Date(); // create a new Date object
   const currentTime = now.toLocaleTimeString(); // get the current time as a string
   console.log("chat.ts called@", currentTime);
-  const { question, history } = req.body;
-
+  const { question, history, apiKey } = req.body;
   console.log("Question: ", question);
   if (!question) {
     return res.status(400).json({ message: "No question in the request" });
@@ -36,11 +35,11 @@ export default async function handler(
   /* create vectorstore*/
   const vectorStore = await SupabaseVectorStore.fromExistingIndex(
     supabaseClient,
-    new OpenAIEmbeddings()
+    new OpenAIEmbeddings({ openAIApiKey: apiKey })
   );
 
   // const chain = ChatVectorDBQAChain.fromLLM(openai, vectorStore);
-  const chain = makeChain(vectorStore);
+  const chain = makeChain(vectorStore, apiKey);
 
   const response = await chain.call({
     question: sanitizedQuestion,
