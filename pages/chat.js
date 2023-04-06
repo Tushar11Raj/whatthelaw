@@ -50,7 +50,7 @@ export default function Chat() {
     const question = query.trim();
 
     if (apiKey == null) await askForApiKey();
-
+    if (!apiKey) return;
     setMessageState((state) => ({
       ...state,
       messages: [
